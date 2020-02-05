@@ -1,0 +1,32 @@
+---
+title: "Vowels"
+author: "Ali Crump"
+date: "2/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(babynames)
+```
+
+```{r}
+babynames %>% 
+  mutate(first = substr(name, 1,1)) %>% 
+  filter(first %in% c("A","E","I","O","U")) %>% 
+  group_by(first, year) %>% 
+  summarize(n = n()) %>% 
+  ggplot(aes(x = year, y = n, color = first)) +
+  geom_point() +
+  facet_wrap(~first)
+```
+```{r}
+babynames %>% 
+  filter(sex == "F") %>% 
+  mutate(first = substr(name, 1,1)) %>%
+  filter(first == "A", year >= 1920) %>% 
+  group_by(name, year) %>% 
+  filter(n >= 10000)
+
+```
